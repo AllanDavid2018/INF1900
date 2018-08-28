@@ -34,5 +34,6 @@ int main()
                             // il prend les bits de 24 a 31 du compteur
                             // en faisant un decallage de 24 bits.
   }
+    
   return 0; 
 }

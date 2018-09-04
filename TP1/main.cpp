@@ -84,6 +84,31 @@ int main()
   DDRB = 0xff; // PORT B est en mode sortie
   DDRC = 0xff; // PORT C est en mode sortie
   DDRD = 0x00; // PORT D est en mode entree 
+      
+/*
+ * ETAT PRESENT | D2 | ETAT SUIVANT | SORTIE Z
+ * INIT			| 0  | INIT			| 0
+ * INIT			| 1  | E1			| 0
+ * E1			| 0  | E1			| 0
+ * E1			| 1  | E2			| 0
+ * E2			| 0  | E2			| 0
+ * E2			| 1  | E3			| 0
+ * E3			| 0  | E3			| 0 
+ * E3			| 1  | E4			| 0
+ * E4			| 0  | E4			| 0
+ * E4			| 1  | E5			| 0
+ * E5			| X  | INIT			| 1
+*/
+      
+    
+      
+      
+      
+      
+      
+      
+      
+      
       /*    
     for (;;){
 
@@ -105,7 +130,7 @@ int main()
 	  	
     
   }
-  */
+  
 	
 	uint8_t EtatCouleur=0;
 	bool estFerme=1;
@@ -139,6 +164,7 @@ int main()
 if (!(PIND & 0x04))
 	estFerme=1;
 	}
+	*/
   
   return 0; 
 }

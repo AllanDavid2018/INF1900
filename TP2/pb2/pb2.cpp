@@ -79,7 +79,10 @@ int main()
 				break;
 		
 		case 2 : 
-				allumerAmbre();
+				PORTA = 0x01;
+			_	delay_ms (1);
+			PORTA= 0b10; 
+			_delay_ms (1); 
 				break;
 				  
 		case 3 :  

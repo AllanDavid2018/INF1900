@@ -58,7 +58,8 @@ ISR ( INT0_vect) {
 	 if(bouton == (PIND & 0x04)){ 
 		 if (etat == vertB)
 			etat = rougeA; 
-		else etat = Etats ((int) etat+1); 
+		else
+            etat = Etats ((int) etat+1); 
 	 }
 	
 

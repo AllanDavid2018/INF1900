@@ -14,34 +14,12 @@ void allumerRouge() {
 void allumerVert() { 
 	PORTA = 0b01;
 }
-void allumerAmbre(){ 
-	for (;;){
-		PORTA = 0x01;
-			_delay_ms (1);
-		PORTA= 0b10; 
-		_delay_ms (1); 
-		
-		if (PIND == 0b00) 
-			break; 
-		}
-}
 
 
 void eteindre() { 
 	PORTA = 0b00;
 }
 
-
-enum Etats {
-	rougeA,
-	ambre, 
-	vertA,
-	rougeB,  
-	eteint, 
-	vertB,
-};
-
-volatile Etats etat =rougeA;
 
 volatile uint8_t minuterieExpiree;
 
@@ -170,7 +148,6 @@ int main()
 	if (minuterieExpiree) 
 		allumerRouge(); 
 	else allumerVert();
-	for(;;);
 	
   return 0; 
 }

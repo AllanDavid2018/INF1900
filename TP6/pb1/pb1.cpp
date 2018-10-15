@@ -145,7 +145,7 @@ int main()
         // Turn on green light for a second
         allumerRouge();
         msleep(1000);
-        lightOff();
+        eteindre();
         compteur = 0;
 
     // Réactive les interruptions

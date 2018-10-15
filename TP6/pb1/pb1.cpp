@@ -11,6 +11,8 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
+void partirMinuterie ( uint16_t duree );
+
 /**
  * Light on the LED in green
  */

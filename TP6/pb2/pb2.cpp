@@ -65,7 +65,7 @@ int main()
 		if(valeurConvertie <= 30) // on considere que si la valeur convertie est plus petite ou egale a 30 on est en lumiere basse (donc DEL verte)
 			allumerVert();
        
-		else if(valeurConvertie>30 && valeur<=50) // on considere que si elle est comprise entre 31 et 50 on est en lumiere a un bon niveau (donc DEL ambre)
+		else if(valeurConvertie>30 && valeurConvertie<=50) // on considere que si elle est comprise entre 31 et 50 on est en lumiere a un bon niveau (donc DEL ambre)
 			allumerAmbre();	
 			
 		else if(valeurConvertie>50)// on considere que si elle est plus grande strictement a 50 on est en lumiere basse (donc DEL rouge)

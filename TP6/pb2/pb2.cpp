@@ -12,35 +12,60 @@
 #include <util/delay.h>
 #include "can.h"
 
-void ajustementPWM ( uint8_t ratio ) {
-    
+void allumerRouge() {
+	 PORTD = 0b10;
+}
+void allumerVert() { 
+	PORTD = 0b01;
+}
+void allumerAmbre(){ 
+	for (;;){
+		PORTD = 0x01;
+			_delay_ms (1);
+		PORTD= 0b10; 
+		_delay_ms (1); 
+		
+		if (PIND == 0b00) 
+			break; 
+		}
+}
 
-    TCCR1A = _BV(COM1A1) | _BV(COM1B1) | _BV(COM1A0) | _BV(WGM10);
-    OCR1A = ratio;
-    OCR1B = ratio;
-
-    // division d'horloge par 8 - implique une frequence de PWM fixe
-    TCCR1B = _BV(CS11);
-    TCCR1C = 0;
+void initialisation () {
+// Désactive les interruptions
+  DDRA = 0x00; // PORT A est en mode sortie
+  DDRB = 0xff; // PORT B est en mode sortie
+  DDRC = 0xff; // PORT C est en mode sortie
+  DDRD = 0xff; // PORT D est en mode entree 
+  TCNT1 = 0;
 }
 
 
 int main()
 {
     
-    DDRD = 0x30;
+   initialisation();
+   can conv;
+   allumerRouge();
+   _delay_ms(1000); 
 
-    
-    TCNT1 = 0;
-
-    // We get the reader for the photoresistor
-    can conv;
-
-    for(;;)
-    {
-        // We get the 8 MSB from the 10 last bits, that will be or ratio x:255
-        ajustementPWM(conv.lecture(0)>>2);
-    }
+	for(;;)
+   {
+   
+		uint8_t valeur = conv.lecture(0)>>2;
+		/*
+		if(valeur < 85)
+			allumerVert();
+		else if(valeur>=85 && valeur<=170)
+			allumerAmbre();	
+			
+		else if(valeur>170)
+			allumerRouge();
+		*/
+		if (valeur==0)
+			allumerVert(); 
+	
+		
+   }
 
     return 0; 
 }

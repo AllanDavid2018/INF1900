@@ -2,8 +2,8 @@
  * According to: http://www.groupes.polymtl.ca/inf1900/tp/tp6/
  *
  * @author Allan BEDDOUK & David DRATWA
- * @created: 2018-10-15
- * @modified: 
+ * @created: 2018-10-02
+ * @modified: 2018-10-16
  */
 
 #define F_CPU 8000000
@@ -13,19 +13,25 @@
 
 void partirMinuterie ( uint16_t duree );
 
-
+/*
+ Methode qui allume la lumiere en vert (configure sur le port A)
+ */
 void allumerVert()
 {
     PORTA = 0x2;
 }
 
-
+/*
+ Methode qui allume la lumiere en rouge (configure sur le port A)
+ */
 void allumerRouge()
 {
     PORTA = 0x1;
 }
 
-
+/*
+ Methode qui eteint la lumiere (configure sur le port A)
+ */
 void eteindre()
 {
     PORTA = 0x0;
@@ -34,16 +40,18 @@ void eteindre()
 volatile uint8_t compteur;
 
 
-ISR (TIMER1_COMPA_vect) {
+ISR (TIMER1_COMPA_vect)
+{
+    //On incremente de 10 fois a chaque seconde
     compteur+=10;
 }
 
-ISR ( INT0_vect) {
-
+ISR ( INT0_vect)
+{
     // Anti rebond
     _delay_ms(50);
    
-
+//Se souvenir si le bouton est bien presse, puis fait partir la minuterie
     if (!(PIND & 0x04)) 
         partirMinuterie(F_CPU/1024);
     
@@ -53,9 +61,9 @@ ISR ( INT0_vect) {
 
 void partirMinuterie ( uint16_t duree ) {
     compteur = 0;
+    
     // mode CTC du timer 1 avec horloge divisee par 1024
     // interruption après la duree specifiee
-      
     TCNT1 = 0;
     OCR1A = duree;
     TCCR1A |= _BV(COM1A1) | _BV(COM1A0);
@@ -63,14 +71,17 @@ void partirMinuterie ( uint16_t duree ) {
     TIMSK1 |= _BV(OCIE1A); //0b00000010;
 }
 
-void arreterMinuterie() {
+void arreterMinuterie()
+{
     OCR1A = 0;
     TCCR1A = 0;
     TCCR1B = 0;
     TIMSK1 = 0;
 }
 
-void initialisation () {
+void initialisation ()
+{
+    
 // Désactive les interruptions
     cli();
 
@@ -88,6 +99,7 @@ void initialisation () {
     EICRA =_BV(ISC00);
 
     // Reactive les interruptions
+    
     sei();
 }
 
@@ -96,7 +108,11 @@ int main()
 {
 	
     initialisation();
-	while (compteur <= 120 && (!(PIND & _BV(PORTD2)) || compteur == 0)); 
+    
+    //Tant que le compteur n'est pas arrive a 12secondes ou que le bouton est toujours presse
+    //on reste et on continue le programme des que le bouton est lache ou que le compteur depasse la valeur 120
+	while (compteur <= 120 && (!(PIND & _BV(PORTD2)) || compteur == 0));
+    
     arreterMinuterie();
         
 	// Une interruption s'est produite. Arreter toute
@@ -107,7 +123,7 @@ int main()
 	allumerVert();
 	_delay_ms(500);
 
-	// pause de 2 secondes
+	// On eteint puis pause de 2 secondes
 	eteindre();
 	_delay_ms(2000);
 
@@ -120,17 +136,15 @@ int main()
 		_delay_ms(250);
 	}
 
-	// Turn on green light for a second
+	// Allume vert pour une secode
 	allumerVert();
 	_delay_ms(1000);
-	eteindre();
+	
+    //On eteint la lumiere, on remet le compteur a 0 puis on reactive les interruptions pour revenir a l'Etat initiale
+    eteindre();
 	compteur = 0;
-
-	// Réactive les interruptions
 	sei ();
     
 
     return 0; 
 }
-
-

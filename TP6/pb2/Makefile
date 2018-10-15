@@ -70,7 +70,7 @@ MCU=atmega324pa
 
 # Name of our project
 # (use a single word, e.g. 'myproject')
-PROJECTNAME=test32bits
+PROJECTNAME=Probleme2_TP6
 
 # Source files
 # List C/C++/Assembly source files:

@@ -51,17 +51,17 @@ minuterieExpiree = 0;
 
 // interruption après la durée spécifiée
 
-TCNT1 |= 0b0 ;
+TCNT1 = 0b0 ;
 
 OCR1A = duree;
 
-TCCR1A |= 0b00000001 ;
+TCCR1A |= 0b1 ;
 
-TCCR1B |= 0b00000101;
+TCCR1B |= 0b101;
 
-TCCR1C |= 0b0;
+TCCR1C = 0b0;
 
-TIMSK1 |= 0b00000010;
+TIMSK1 |= 0b10;
 
 }
 
